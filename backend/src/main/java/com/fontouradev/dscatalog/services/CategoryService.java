@@ -24,17 +24,16 @@ public class CategoryService {
     public List<CategoryDTO> findAll(){
         List<Category> list = repository.findAll();
         
-        return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
-        
 //        List<CategoryDTO> listDto = new ArrayList<>();
 //        for (Category category : list) {
 //			listDto.add(new CategoryDTO(category));
 //		}
         
 //        return listDto;
+        return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
     }
 
-    
+    @Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		
 		Optional<Category> obj = repository.findById(id);
@@ -42,5 +41,15 @@ public class CategoryService {
 		CategoryDTO dto = new CategoryDTO(entity);
 		
 		return dto;
+	}
+
+	@Transactional
+	public CategoryDTO insert(CategoryDTO dto) {
+		Category entity = new Category();
+		entity.setName(dto.getName());
+		
+		entity = repository.save(entity);
+		
+		return new CategoryDTO(entity);
 	}
 }
