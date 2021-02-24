@@ -1,7 +1,7 @@
 package com.fontouradev.dscatalog.services;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fontouradev.dscatalog.dto.CategoryDTO;
 import com.fontouradev.dscatalog.entities.Category;
 import com.fontouradev.dscatalog.repositories.CategoryRepository;
-
+import com.fontouradev.dscatalog.services.exceptions.EntityNotFoundException;
 
 
 @Service
@@ -33,4 +33,14 @@ public class CategoryService {
         
 //        return listDto;
     }
+
+    
+	public CategoryDTO findById(Long id) {
+		
+		Optional<Category> obj = repository.findById(id);
+		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found") );
+		CategoryDTO dto = new CategoryDTO(entity);
+		
+		return dto;
+	}
 }
