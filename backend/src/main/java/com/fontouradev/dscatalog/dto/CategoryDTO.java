@@ -8,7 +8,6 @@ public class CategoryDTO {
 	private String name;
 	
 	public CategoryDTO() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public CategoryDTO(Long id, String name) {
