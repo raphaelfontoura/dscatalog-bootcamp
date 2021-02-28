@@ -1,5 +1,7 @@
 package com.fontouradev.dscatalog.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -40,6 +42,11 @@ public class ClientService {
 
 	@Transactional
 	public ClientDTO insert(ClientDTO clientDto) {
+		
+		if (!validateCPF(clientDto.getCpf())) {
+			throw new IllegalArgumentException("CPF invalid.");
+		}
+		
 		Client client = new Client();
 		ClientDtoToEntity(clientDto, client);
 		client = repository.save(client);
@@ -48,6 +55,11 @@ public class ClientService {
 
 	@Transactional
 	public ClientDTO update(Long id, ClientDTO clientDto) {
+		
+		if (!validateCPF(clientDto.getCpf())) {
+			throw new IllegalArgumentException("CPF invalid.");
+		}
+		
 		try {
 			Client client = repository.getOne(id);
 			ClientDtoToEntity(clientDto, client);
@@ -78,6 +90,35 @@ public class ClientService {
 		client.setIncome(clientDto.getIncome());
 		client.setBirthDate(clientDto.getBirthDate());
 		client.setChildren(clientDto.getChildren());
+	}
+	
+	private Boolean validateCPF(String cpf) {
+		char[] list = cpf.toCharArray();
+		List<Integer> numbers = new ArrayList<>();
+		for (char character : list) {
+			numbers.add(Character.getNumericValue(character));
+		}
+		if (numbers.size() != 11) {
+			return false;
+		}
+		if (numbers.get(9) != calculateVerifyDigit(9, 10, numbers)) {
+			return false;
+		}
+		if (numbers.get(10) != calculateVerifyDigit(10, 11, numbers)) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private Integer calculateVerifyDigit(int limit, int constant, List<Integer> numbers) {
+		int digit = 0;
+		int sum = 0;
+		for (int i = 0; i < limit; i++) {
+			sum += (constant-i) * numbers.get(i);
+		}
+		digit = sum%11;
+		return (11 - digit) >= 10 ? 0 : (11 - digit);
 	}
 
 }
