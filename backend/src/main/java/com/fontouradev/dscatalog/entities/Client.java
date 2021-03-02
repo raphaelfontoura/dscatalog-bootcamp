@@ -22,6 +22,7 @@ public class Client implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	@Column(length = 11)
 	private String cpf;
 	private Double income;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
