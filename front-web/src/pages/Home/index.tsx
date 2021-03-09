@@ -6,7 +6,7 @@ import "./sytles.scss";
 
 const Home = () => (
     <div className="home-container">
-        <div className="row home-content">
+        <div className="row home-content card-base border-radius-20">
             <div className="col-6">
                 <h1 className="text-title">
                     Conheça o melhor <br />
