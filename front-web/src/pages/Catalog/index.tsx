@@ -6,7 +6,6 @@ import { makeRequest } from "core/utils/request";
 import { ProductsResponse } from "core/types/Product";
 import ProductCardLoader from "./components/Loaders/ProductCardLoader";
 import Pagination from "core/components/Pagination";
-import { act } from "react-dom/test-utils";
 
 const Catalog = () => {
 
