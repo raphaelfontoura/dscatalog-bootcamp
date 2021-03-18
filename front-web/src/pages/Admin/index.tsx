@@ -1,5 +1,6 @@
 import { Route, Switch } from "react-router";
 import Navbar from "./components/Navbar";
+import Products from "./components/Products";
 import "./styles.scss";
 
 const Admin = () => (
@@ -8,7 +9,7 @@ const Admin = () => (
         <div className="admin-content">
             <Switch>
                 <Route path="/admin/products">
-                    <h1>Products</h1>
+                    <Products />
                 </Route>
                 <Route path="/admin/categories">
                     <h1>Categories</h1>
