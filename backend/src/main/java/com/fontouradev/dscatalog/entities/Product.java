@@ -40,7 +40,6 @@ public class Product implements Serializable {
 	private Set<Category> categories = new HashSet<>();
 	
 	public Product() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Product(Long id, String name, String description, Double price, String imgUrl, Instant date) {
