@@ -1,6 +1,8 @@
 package com.fontouradev.dscatalog.resources;
 
+import com.fontouradev.dscatalog.dto.FileDTO;
 import com.fontouradev.dscatalog.dto.ProductDTO;
+import com.fontouradev.dscatalog.dto.UriDTO;
 import com.fontouradev.dscatalog.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -64,6 +67,12 @@ public class ProductResource {
 		service.delete(id);
 
 		return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping(value = "/image")
+	public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file) {
+		UriDTO dto = service.uploadFile(file);
+		return ResponseEntity.ok().body(dto);
 	}
 
 }
