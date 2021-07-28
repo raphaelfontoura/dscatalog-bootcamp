@@ -1,6 +1,5 @@
 package com.fontouradev.dscatalog.resources;
 
-import com.fontouradev.dscatalog.dto.FileDTO;
 import com.fontouradev.dscatalog.dto.ProductDTO;
 import com.fontouradev.dscatalog.dto.UriDTO;
 import com.fontouradev.dscatalog.services.ProductService;

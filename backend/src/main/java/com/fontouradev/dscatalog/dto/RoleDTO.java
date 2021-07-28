@@ -1,8 +1,8 @@
 package com.fontouradev.dscatalog.dto;
 
-import java.io.Serializable;
-
 import com.fontouradev.dscatalog.entities.Role;
+
+import java.io.Serializable;
 
 public class RoleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;

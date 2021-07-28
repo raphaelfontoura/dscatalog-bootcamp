@@ -1,17 +1,15 @@
 package com.fontouradev.dscatalog.services.validation;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fontouradev.dscatalog.dto.UserInsertDTO;
 import com.fontouradev.dscatalog.entities.User;
 import com.fontouradev.dscatalog.repositories.UserRepository;
 import com.fontouradev.dscatalog.resources.exceptions.FieldMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserInsertDTO> {
 	

@@ -1,9 +1,15 @@
 package com.fontouradev.dscatalog.services;
 
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
-
+import com.fontouradev.dscatalog.dto.RoleDTO;
+import com.fontouradev.dscatalog.dto.UserDTO;
+import com.fontouradev.dscatalog.dto.UserInsertDTO;
+import com.fontouradev.dscatalog.dto.UserUpdateDTO;
+import com.fontouradev.dscatalog.entities.Role;
+import com.fontouradev.dscatalog.entities.User;
+import com.fontouradev.dscatalog.repositories.RoleRepository;
+import com.fontouradev.dscatalog.repositories.UserRepository;
+import com.fontouradev.dscatalog.services.exceptions.DatabaseException;
+import com.fontouradev.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,16 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fontouradev.dscatalog.dto.RoleDTO;
-import com.fontouradev.dscatalog.dto.UserDTO;
-import com.fontouradev.dscatalog.dto.UserInsertDTO;
-import com.fontouradev.dscatalog.dto.UserUpdateDTO;
-import com.fontouradev.dscatalog.entities.Role;
-import com.fontouradev.dscatalog.entities.User;
-import com.fontouradev.dscatalog.repositories.RoleRepository;
-import com.fontouradev.dscatalog.repositories.UserRepository;
-import com.fontouradev.dscatalog.services.exceptions.DatabaseException;
-import com.fontouradev.dscatalog.services.exceptions.ResourceNotFoundException;
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {

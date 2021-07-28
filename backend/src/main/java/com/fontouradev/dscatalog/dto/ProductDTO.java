@@ -1,18 +1,17 @@
 package com.fontouradev.dscatalog.dto;
 
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.fontouradev.dscatalog.entities.Category;
+import com.fontouradev.dscatalog.entities.Product;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-
-import com.fontouradev.dscatalog.entities.Category;
-import com.fontouradev.dscatalog.entities.Product;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ProductDTO implements Serializable {
 	private static final long serialVersionUID = 1L;

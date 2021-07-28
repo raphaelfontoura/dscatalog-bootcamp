@@ -1,11 +1,10 @@
 package com.fontouradev.dscatalog.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
-
+import com.fontouradev.dscatalog.dto.CategoryDTO;
+import com.fontouradev.dscatalog.entities.Category;
+import com.fontouradev.dscatalog.repositories.CategoryRepository;
+import com.fontouradev.dscatalog.services.exceptions.DatabaseException;
+import com.fontouradev.dscatalog.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,11 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fontouradev.dscatalog.dto.CategoryDTO;
-import com.fontouradev.dscatalog.entities.Category;
-import com.fontouradev.dscatalog.repositories.CategoryRepository;
-import com.fontouradev.dscatalog.services.exceptions.DatabaseException;
-import com.fontouradev.dscatalog.services.exceptions.ResourceNotFoundException;
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service

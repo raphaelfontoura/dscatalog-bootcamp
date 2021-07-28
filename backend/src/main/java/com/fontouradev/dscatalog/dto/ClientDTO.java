@@ -1,9 +1,9 @@
 package com.fontouradev.dscatalog.dto;
 
+import com.fontouradev.dscatalog.entities.Client;
+
 import java.io.Serializable;
 import java.time.Instant;
-
-import com.fontouradev.dscatalog.entities.Client;
 
 public class ClientDTO implements Serializable {
 

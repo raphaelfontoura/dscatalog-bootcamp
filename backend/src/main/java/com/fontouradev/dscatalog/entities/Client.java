@@ -1,16 +1,8 @@
 package com.fontouradev.dscatalog.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_client")
