@@ -2,7 +2,7 @@ package com.fontouradev.dscatalog.repositories;
 
 import com.fontouradev.dscatalog.entities.Category;
 import com.fontouradev.dscatalog.entities.Product;
-import com.fontouradev.dscatalog.repositories.fabric.ProductFabric;
+import com.fontouradev.dscatalog.factory.ProductFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -88,7 +88,7 @@ public class ProductRepositoryTests {
 
     @Test
     void save_ShouldPersist_WhenIdIsNull() {
-        Product product = ProductFabric.createProduct();
+        Product product = ProductFactory.createProduct();
         product.setId(null);
 
         product = repository.save(product);

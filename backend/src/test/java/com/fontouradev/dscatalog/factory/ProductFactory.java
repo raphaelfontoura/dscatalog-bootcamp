@@ -1,11 +1,11 @@
-package com.fontouradev.dscatalog.repositories.fabric;
+package com.fontouradev.dscatalog.factory;
 
 import com.fontouradev.dscatalog.dto.ProductDTO;
 import com.fontouradev.dscatalog.entities.Product;
 
 import java.time.Instant;
 
-public class ProductFabric {
+public class ProductFactory {
     public static Product createProduct() {
         return new Product(1L,
                 "phone",
@@ -17,5 +17,11 @@ public class ProductFabric {
 
     public static ProductDTO createProductDTO() {
         return new ProductDTO(createProduct());
+    }
+
+    public static ProductDTO createProductDTO(Long id) {
+        ProductDTO dto = createProductDTO();
+        dto.setId(id);
+        return dto;
     }
 }
