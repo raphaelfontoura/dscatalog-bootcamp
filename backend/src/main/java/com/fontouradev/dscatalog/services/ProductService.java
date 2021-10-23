@@ -70,7 +70,7 @@ public class ProductService {
 		}
 	}
 
-	public Object delete(Long id) {
+	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
 			
@@ -79,8 +79,6 @@ public class ProductService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}
-		
-		return null;
 	}
 	
 	private void copyDtoToEntity(ProductDTO dto, Product entity) {

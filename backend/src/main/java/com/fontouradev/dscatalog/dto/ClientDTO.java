@@ -17,7 +17,6 @@ public class ClientDTO implements Serializable {
 	private Integer children;
 	
 	public ClientDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public ClientDTO(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
