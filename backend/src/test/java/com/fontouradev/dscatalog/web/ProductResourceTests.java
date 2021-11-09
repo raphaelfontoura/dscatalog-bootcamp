@@ -88,7 +88,7 @@ public class ProductResourceTests {
     }
 
     @Test
-    public void insert_shouldReturnProductDTO_whenValidProduct() throws Exception {
+    public void insert_shouldReturnUnprocessableEntity_whenInvalidProduct() throws Exception {
         String jsonProduct = objectMapper.writeValueAsString(invalidProductPrice);
         String accessToken = obtainAccessToken(operatorUsername, operatorPassword);
         mockMvc.perform(post("/products")
@@ -99,7 +99,7 @@ public class ProductResourceTests {
     }
 
     @Test
-    public void insert_shouldReturnUnprocessableEntity_whenInvalidProduct() throws Exception {
+    public void insert_shouldReturnProductDTO_whenValidProduct() throws Exception {
         String jsonProduct = objectMapper.writeValueAsString(newProductDTO);
         String accessToken = obtainAccessToken(operatorUsername, operatorPassword);
         mockMvc.perform(post("/products")

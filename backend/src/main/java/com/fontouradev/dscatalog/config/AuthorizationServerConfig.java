@@ -26,7 +26,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${security.oauth2.client.client-secret}")
 	private String clientSecret;
 	@Value("${jwt.duration}")
-	private Integer duration;
+	private Integer jwtDuration;
 	
 
 	@Autowired
@@ -56,7 +56,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.secret(passwordEncoder.encode(clientSecret))
 			.scopes("read", "write")
 			.authorizedGrantTypes("password")
-			.accessTokenValiditySeconds(duration);
+			.accessTokenValiditySeconds(jwtDuration);
 	}
 
 	@Override
