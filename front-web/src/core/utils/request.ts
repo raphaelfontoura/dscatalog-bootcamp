@@ -15,7 +15,7 @@ type LoginData = {
     password: string;
 }
 
-const BASE_URL = "http://localhost:3000"; //url to local port app and proxy on package.json will be translate to localhost:8080
+const BASE_URL = "http://localhost:8080"; //url to local port app and proxy on package.json will be translate to localhost:8080
 
 export const makeRequest = ({ method = "GET", url, data, params, headers }:RequestParams) => {
     return axios({
