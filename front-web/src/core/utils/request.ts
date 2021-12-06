@@ -36,6 +36,7 @@ export const makeLogin = (loginData: LoginData) => {
     }
 
     const payload = qs.stringify({ ...loginData, grant_type: 'password' });
+    // const payload = `username=${loginData.username}&password=${loginData.password}&grant_type=password`
 
     return makeRequest({ url: '/oauth/token', data: payload, method: 'POST', headers: headers });
 }
