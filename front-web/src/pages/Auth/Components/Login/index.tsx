@@ -14,7 +14,7 @@ type FormData = {
 
 const Login = () => {
 
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, formState: { errors }, handleSubmit } = useForm<FormData>();
   const [hasError, setHasError] = useState(false);
   const history = useHistory();
 
@@ -38,18 +38,57 @@ const Login = () => {
         </div>
       )}
       <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="email"
-          className="form-control input-base margin-bottom-30"
-          placeholder="Email"
-          {...register("username", { required: true })}
-        />
-        <input
-          type="password"
-          className="form-control input-base"
-          placeholder="Senha"
-          {...register("password", { required: true, minLength: 4 })}
-        />
+        <div className="margin-bottom-30">
+
+          <input
+            type="email"
+            className={`form-control input-base ${errors.username ? 'is-invalid' : ''}`}
+            placeholder="Email"
+            {...register("username",
+              {
+                required: {
+                  value: true,
+                  message: "Campo obrigatório"
+                },
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i,
+                  message: "Email inválido"
+                }
+              })
+            }
+          />
+          {errors.username && (
+            <div className="invalid-feedback d-block">
+              {errors.username.message}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <input
+            type="password"
+            className={`form-control input-base ${errors.password ? 'is-invalid' : ''}`}
+            placeholder="Senha"
+            {...register("password", {
+
+                required: {
+                  value: true,
+                  message: "Campo obrigatório"
+                },
+                minLength: {
+                  value: 4,
+                  message: "Mínimo de 4 dígitos"
+                }
+              })
+            }
+          />
+          {errors.password && (
+            <div className="invalid-feedback d-block">
+              {errors.password.message}
+            </div>
+          )}
+        </div>
+
         <Link to="/admin/auth/recover" className="login-link-recover">
           Esqueci a senha?
         </Link>
