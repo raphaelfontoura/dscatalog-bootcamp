@@ -1,6 +1,6 @@
-import { makeRequest } from 'core/utils/request';
 import React, { useState } from 'react';
 import BaseForm from '../../BaseForm';
+import { makePrivateRequest } from 'core/utils/request';
 import './styles.scss';
 
 type FormState = {
@@ -35,7 +35,7 @@ const Form = () => {
             imgUrl: 'https://http2.mlstatic.com/D_NQ_NP_627914-MLA40655732617_022020-O.jpg',
             categories: [{ id: Number(formData.category) }],
         }
-        makeRequest({ url: '/products', method: 'POST', data: payload })
+        makePrivateRequest({ url: '/products', method: 'POST', data: payload })
             .then(() => {
                 setFormData({ name: '', category: '1', price: '', description: '' });
             });
