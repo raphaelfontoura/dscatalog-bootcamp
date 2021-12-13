@@ -12,7 +12,7 @@ type LoginResponse = {
   UserId?: number;
 };
 
-type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+export type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
 
 type AccessToken = {
   exp: number;
@@ -45,4 +45,12 @@ export const isTokenValid = () => {
 export const isAuthenticated = () => {
   const sessionData = getSessionData();
   return sessionData.access_token && isTokenValid();
+}
+
+export const isAllowedByRole = (routeRoles: Role[] = []) => {
+  if (routeRoles.length === 0) {
+    return true;
+  }
+  const { authorities } = getAccessTokenDecoded();
+  return routeRoles.some(role => authorities.includes(role));
 }

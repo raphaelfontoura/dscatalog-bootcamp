@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import ProductCard from "./components/ProductCard";
-import "./styles.scss"
-import { makeRequest } from "core/utils/request";
-import { ProductsResponse } from "core/types/Product";
-import ProductCardLoader from "./components/Loaders/ProductCardLoader";
-import Pagination from "core/components/Pagination";
+import './styles.scss';
+
+import Pagination from 'core/components/Pagination';
+import { ProductsResponse } from 'core/types/Product';
+import { makeRequest } from 'core/utils/request';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import ProductCardLoader from './components/Loaders/ProductCardLoader';
+import ProductCard from './components/ProductCard';
 
 const Catalog = () => {
 
