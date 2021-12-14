@@ -94,6 +94,11 @@ public class ProductService {
 			Category category = categoryRepository.getOne(categoryDto.getId());
 			entity.getCategories().add(category);
 		}
+
+		if (entity.getCategories().size() == 0) {
+			Category category = categoryRepository.getOne(1L);
+			entity.getCategories().add(category);
+		}
 	}
 
 	public UriDTO uploadFile(MultipartFile file) {
