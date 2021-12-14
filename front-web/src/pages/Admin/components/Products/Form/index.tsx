@@ -3,11 +3,12 @@ import './styles.scss';
 import { makePrivateRequest } from 'core/utils/request';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
- 
-import BaseForm from '../../BaseForm';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+import BaseForm from '../../BaseForm';
+
+ 
 type FormState = {
   name: string;
   price: string;
