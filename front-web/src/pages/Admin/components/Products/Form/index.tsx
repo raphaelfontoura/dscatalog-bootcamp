@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import BaseForm from '../../BaseForm';
-import { makePrivateRequest } from 'core/utils/request';
 import './styles.scss';
+
+import { makePrivateRequest } from 'core/utils/request';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+
+import BaseForm from '../../BaseForm';
 
 type FormState = {
   name: string;
@@ -11,8 +13,6 @@ type FormState = {
   description: string;
   imgUrl: string;
 }
-
-type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
 const Form = () => {
 
