@@ -2,59 +2,39 @@ import React, { useState } from 'react';
 import BaseForm from '../../BaseForm';
 import { makePrivateRequest } from 'core/utils/request';
 import './styles.scss';
+import { useForm } from 'react-hook-form';
 
 type FormState = {
     name: string;
     price: string;
-    category: string;
+    category?: string;
     description: string;
+    imgUrl: string;
 }
 
 type FormEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
 const Form = () => {
 
-    const [formData, setFormData] = useState<FormState>({
-        name: '',
-        price: '',
-        category: '1',
-        description: '',
-    });
+    const { register, handleSubmit } = useForm<FormState>();
 
-    const handleOnChange = ({ target }: FormEvent) => {
-        const name = target.name;
-        const value = target.value;
-        // console.log({ name, value });
-        setFormData(data => ({ ...data, [name]: value }))
-    }
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const payload = {
-            ...formData,
-            imgUrl: 'https://http2.mlstatic.com/D_NQ_NP_627914-MLA40655732617_022020-O.jpg',
-            categories: [{ id: Number(formData.category) }],
-        }
-        makePrivateRequest({ url: '/products', method: 'POST', data: payload })
-            .then(() => {
-                setFormData({ name: '', category: '1', price: '', description: '' });
-            });
+    const onSubmit = (data: FormState) => {
+        makePrivateRequest({ url: '/products', method: 'POST', data });
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <BaseForm title="CADASTRAR UM PRODUTO">
                 <div className="row">
                     <div className="col-6">
                         <input
-                            value={formData.name}
+                            {...register('name')}
                             name="name"
                             type="text"
-                            className="form-control mb-5 mt-5"
-                            onChange={handleOnChange}
+                            className="form-control margin-bottom-30 input-base"
                             placeholder="Nome do Produto"
                         />
-                        <select
+                        {/* <select
                             value={formData.category}
                             name="category"
                             id=""
@@ -64,23 +44,29 @@ const Form = () => {
                             <option value="1">Livros</option>
                             <option value="3">Computadores</option>
                             <option value="2">Eletrônicos</option>
-                        </select>
+                        </select> */}
                         <input
-                            value={formData.price}
+                            {...register('price')}
                             name="price"
-                            type="text"
-                            className="form-control"
-                            onChange={handleOnChange}
+                            type="number"
+                            className="form-control margin-bottom-30 input-base"
                             placeholder="Preço"
+                        />
+                        <input
+                            {...register('imgUrl')}
+                            name="imgUrl"
+                            type="text"
+                            className="form-control margin-bottom-30 input-base"
+                            placeholder="Url da imagem do Produto"
                         />
                     </div>
                     <div className="col-6">
-                        <textarea 
+                        <textarea
+                            {...register('description')}
                             name="description"
-                            value={formData.description}
-                            onChange={handleOnChange} 
-                            className="form-control mt-5"
-                            cols={30} 
+                            className="form-control input-base"
+                            placeholder='Descrição'
+                            cols={30}
                             rows={10}
                         />
                     </div>
