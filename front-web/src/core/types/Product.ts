@@ -12,5 +12,5 @@ export type Product = {
     price: number;
     imgUrl: string;
     date: string;
-    category: Category[];
+    categories: Category[];
 }

@@ -16,7 +16,9 @@ const List = () => {
   useEffect(() => {
     const params = {
       page: activePage,
-      linesPerPage: 12,
+      linesPerPage: 6,
+      direction: 'DESC',
+      orderBy: 'id'
     }
 
     setIsLoading(true);

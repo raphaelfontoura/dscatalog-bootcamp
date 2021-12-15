@@ -4,21 +4,18 @@ import List from "./List"
 
 
 const Products = () => {
-    return (
-        <div>
-            <Switch>
-                <Route path="/admin/products" exact>
-                    <List />
-                </Route>
-                <Route path="/admin/products/create">
-                    <Form />
-                </Route>
-                <Route path="/admin/products/:productId">
-                    <h1>Alterar um produto</h1>
-                </Route>
-            </Switch>
-        </div>
-    );
+  return (
+    <div>
+      <Switch>
+        <Route path="/admin/products" exact>
+          <List />
+        </Route>
+        <Route path="/admin/products/:productId">
+          <Form />
+        </Route>
+      </Switch>
+    </div>
+  );
 }
 
 export default Products;

@@ -18,7 +18,7 @@ const Catalog = () => {
   useEffect(() => {
     const params = {
       page: activePage,
-      linesPerPage: 12,
+      linesPerPage: 6,
     }
 
     setIsLoading(true);

@@ -1,14 +1,14 @@
 import './styles.scss';
 
-import { makePrivateRequest } from 'core/utils/request';
-import React from 'react';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import BaseForm from '../../BaseForm';
 
- 
+
 type FormState = {
   name: string;
   price: string;
@@ -16,14 +16,39 @@ type FormState = {
   description: string;
   imgUrl: string;
 }
+type ParamsType = {
+  productId: string;
+}
 
 const Form = () => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormState>();
   const history = useHistory();
+  const { productId } = useParams<ParamsType>();
+  const isEditing = productId !== 'create';
+  const formTitle = isEditing ? 'Editar produto' : 'Cadastrar produto';
+
+  useEffect(() => {
+    if (isEditing) {
+      makeRequest({ url: `/products/${productId}` })
+        .then(response => {
+          setValue('name', response.data.name);
+          setValue('price', response.data.price);
+          setValue('description', response.data.description);
+          setValue('imgUrl', response.data.imgUrl);
+
+        });
+    }
+  }, [productId, isEditing, setValue])
 
   const onSubmit = (data: FormState) => {
-    makePrivateRequest({ url: '/products', method: 'POST', data })
+    makePrivateRequest(
+      {
+        url: isEditing ? `/products/${productId}` : '/products',
+        method: isEditing ? 'PUT' : 'POST',
+        data
+      }
+    )
       .then(() => {
         toast.info("Produto salvo com sucesso!");
         history.push("/admin/products");
@@ -35,7 +60,7 @@ const Form = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <BaseForm title="CADASTRAR UM PRODUTO">
+      <BaseForm title={formTitle}>
         <div className="row">
           <div className="col-6">
 
@@ -80,6 +105,7 @@ const Form = () => {
                 )}
                 name="price"
                 type="number"
+                step=".01"
                 className={`form-control input-base ${errors.price ? 'is-invalid' : ''}`}
                 placeholder="Preço"
               />
@@ -105,7 +131,7 @@ const Form = () => {
                 className={`form-control input-base ${errors.imgUrl ? 'is-invalid' : ''}`}
                 placeholder="Url da imagem do Produto"
               />
-              { errors.imgUrl && (
+              {errors.imgUrl && (
                 <div className="invalid-feedback d-block">
                   {errors.imgUrl.message}
                 </div>
@@ -124,12 +150,12 @@ const Form = () => {
                 }
               )}
               name="description"
-              className={`form-control input-base ${errors.description ? 'is-invalid': ''}`}
+              className={`form-control input-base ${errors.description ? 'is-invalid' : ''}`}
               placeholder='Descrição'
               cols={30}
               rows={10}
             />
-            { errors.description && (
+            {errors.description && (
               <div className="invalid-feedback">
                 {errors.description.message}
               </div>
