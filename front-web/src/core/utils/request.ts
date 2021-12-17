@@ -18,10 +18,11 @@ type LoginData = {
 
 const BASE_URL = "http://localhost:8080"; //url to local port app and proxy on package.json will be translate to localhost:8080
 
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
+    if ( ! error.response || error.response.status === 401) {
       logout();
     }
     return Promise.reject(error);
