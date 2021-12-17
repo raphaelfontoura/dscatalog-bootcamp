@@ -1,12 +1,14 @@
 import './styles.scss';
 
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
+import Select from 'react-select';
 import { toast } from 'react-toastify';
 
 import BaseForm from '../../BaseForm';
+import { Category } from 'core/types/Category';
 
 
 type FormState = {
@@ -19,12 +21,19 @@ type FormState = {
 type ParamsType = {
   productId: string;
 }
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+]
 
 const Form = () => {
 
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormState>();
   const history = useHistory();
   const { productId } = useParams<ParamsType>();
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const isEditing = productId !== 'create';
   const formTitle = isEditing ? 'Editar produto' : 'Cadastrar produto';
 
@@ -39,7 +48,14 @@ const Form = () => {
 
         });
     }
-  }, [productId, isEditing, setValue])
+  }, [productId, isEditing, setValue]);
+
+  useEffect(() => {
+    setIsLoadingCategories(true);
+    makeRequest({ url: '/categories' })
+      .then(response => setCategories(response.data.content))
+      .finally(() => setIsLoadingCategories(false));
+  }, [])
 
   const onSubmit = (data: FormState) => {
     makePrivateRequest(
@@ -92,6 +108,15 @@ const Form = () => {
                   {errors.name.message}
                 </div>
               )}
+            </div>
+
+            <div className='margin-bottom-30'>
+              <Select
+                options={options}
+                classNamePrefix="categories-select"
+                placeholder="Categoria"
+                isMulti
+              />
             </div>
 
             <div className="margin-bottom-30">
