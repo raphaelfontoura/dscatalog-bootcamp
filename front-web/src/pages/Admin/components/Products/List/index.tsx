@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
 import Card from '../Card';
+import CardLoader from '../Loaders';
 
 
 const List = () => {
@@ -60,14 +61,11 @@ const List = () => {
         ADICIONAR
       </button>
       <div className="admin-list-container">
-        {isLoading && (
-          <div className="spinner-border center" role="status">
-
-          </div>
+        {isLoading ? <CardLoader /> : (
+          productsResponse?.content.map(product => (
+            <Card product={product} key={product.id} onRemove={onRemove} />
+          ))
         )}
-        {productsResponse?.content.map(product => (
-          <Card product={product} key={product.id} onRemove={onRemove} />
-        ))}
 
         {productsResponse && (
           <Pagination
