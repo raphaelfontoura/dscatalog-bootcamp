@@ -10,6 +10,7 @@ import Select from 'react-select';
 import BaseForm from '../../BaseForm';
 import { Category } from 'core/types/Category';
 import PriceField from './PriceField';
+import ImageUpload from '../ImageUpload';
 
 
 export type FormState = {
@@ -30,6 +31,8 @@ const Form = () => {
   const { productId } = useParams<ParamsType>();
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [uploadedImgUrl, setUploadedImgUrl] = useState('');
+  const [productImgUrl, setProductImgUrl] = useState('');
   const isEditing = productId !== 'create';
   const formTitle = isEditing ? 'Editar produto' : 'Cadastrar produto';
 
@@ -40,8 +43,8 @@ const Form = () => {
           setValue('name', response.data.name);
           setValue('price', response.data.price);
           setValue('description', response.data.description);
-          setValue('imgUrl', response.data.imgUrl);
           setValue('categories', response.data.categories);
+          setProductImgUrl(response.data.imgUrl);
         });
     }
   }, [productId, isEditing, setValue]);
@@ -55,11 +58,15 @@ const Form = () => {
 
   const onSubmit = (data: FormState) => {
     data.price = data.price.replace(',','.');
+    const payload = {
+      ...data,
+      imgUrl: uploadedImgUrl
+    }
     makePrivateRequest(
       {
         url: isEditing ? `/products/${productId}` : '/products',
         method: isEditing ? 'PUT' : 'POST',
-        data
+        data: payload
       }
     )
       .then(() => {
@@ -69,6 +76,10 @@ const Form = () => {
       .catch(() => {
         toast.error("Erro ao salvar produto!")
       })
+  }
+
+  const onUploadImgSuccess = (imgUrl: string) => {
+    setUploadedImgUrl(imgUrl);
   }
 
   return (
@@ -145,25 +156,10 @@ const Form = () => {
             </div>
 
             <div className="margin-bottom-30">
-              <input
-                {...register('imgUrl',
-                  {
-                    required: {
-                      value: true,
-                      message: "Campo obrigatório"
-                    }
-                  }
-                )}
-                name="imgUrl"
-                type="text"
-                className={`form-control input-base ${errors.imgUrl ? 'is-invalid' : ''}`}
-                placeholder="Url da imagem do Produto"
-              />
-              {errors.imgUrl && (
-                <div className="invalid-feedback d-block">
-                  {errors.imgUrl.message}
-                </div>
-              )}
+              <ImageUpload 
+                onUploadSuccess={onUploadImgSuccess}
+                productImgUrl={productImgUrl}
+                />
             </div>
 
           </div>

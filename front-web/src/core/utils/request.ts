@@ -1,22 +1,15 @@
-import axios, { Method } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
 import { CLIENT_ID, CLIENT_SECRET, getSessionData, logout } from './auth';
 
-type RequestParams = {
-  method?: Method;
-  url: string;
-  data?: object | string;
-  params?: object;
-  headers?: object;
-};
 
 type LoginData = {
   username: string;
   password: string;
 };
 
-const BASE_URL = "http://localhost:8080"; //url to local port app and proxy on package.json will be translate to localhost:8080
+const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "https://raphael-dscatalog.herokuapp.com/"; //url to local port app and proxy on package.json will be translate to localhost:8080
 
 
 axios.interceptors.response.use(
@@ -29,35 +22,21 @@ axios.interceptors.response.use(
   }
 );
 
-export const makeRequest = ({
-  method = "GET",
-  url,
-  data,
-  params,
-  headers,
-}: RequestParams) => {
+export const makeRequest = (params: AxiosRequestConfig) => {
   return axios({
-    method,
-    url: `${BASE_URL}${url}`,
-    data,
-    params,
-    headers,
+    ...params,
+    baseURL: BASE_URL,
   });
 };
 
-export const makePrivateRequest = ({
-  method = "GET",
-  url,
-  data,
-  params,
-}: RequestParams) => {
+export const makePrivateRequest = (params: AxiosRequestConfig) => {
   const sessionData = getSessionData();
 
   const headers = {
     Authorization: `Bearer ${sessionData.access_token}`,
   };
 
-  return makeRequest({ method, url, data, params, headers });
+  return makeRequest({ ...params, headers });
 };
 
 export const makeLogin = (loginData: LoginData) => {
