@@ -54,6 +54,7 @@ const Form = () => {
   }, [])
 
   const onSubmit = (data: FormState) => {
+    data.price = data.price.replace(',','.');
     makePrivateRequest(
       {
         url: isEditing ? `/products/${productId}` : '/products',

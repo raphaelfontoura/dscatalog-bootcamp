@@ -25,7 +25,6 @@ const PriceField = ({ control }: Props) => {
           value={field.value}
           intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
           onValueChange={field.onChange}
-          
         />
       )}
     />
