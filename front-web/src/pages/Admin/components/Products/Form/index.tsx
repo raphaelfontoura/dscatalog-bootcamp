@@ -9,9 +9,10 @@ import Select from 'react-select';
 
 import BaseForm from '../../BaseForm';
 import { Category } from 'core/types/Category';
+import PriceField from './PriceField';
 
 
-type FormState = {
+export type FormState = {
   name: string;
   price: string;
   categories: Category[];
@@ -134,20 +135,7 @@ const Form = () => {
             </div>
 
             <div className="margin-bottom-30">
-              <input
-                {...register('price', {
-                  required: {
-                    value: true,
-                    message: 'Campo obrigatório'
-                  }
-                }
-                )}
-                name="price"
-                type="number"
-                step=".01"
-                className={`form-control input-base ${errors.price ? 'is-invalid' : ''}`}
-                placeholder="Preço"
-              />
+              <PriceField control={control} />
               {errors.price && (
                 <div className="invalid-feedback d-block">
                   {errors.price.message}
