@@ -15,7 +15,7 @@ import ImageUpload from '../ImageUpload';
 
 export type FormState = {
   name: string;
-  price: string;
+  price: number;
   categories: Category[];
   description: string;
   imgUrl: string;
@@ -57,10 +57,15 @@ const Form = () => {
   }, [])
 
   const onSubmit = (data: FormState) => {
-    data.price = data.price.replace(',','.');
+    // debugger
+    if (typeof data.price == 'string') {
+      const value = String (data.price).replace(',','.');
+      data.price = Number(value);
+    }
+    // data.price = data.price.replace(',','.');
     const payload = {
       ...data,
-      imgUrl: uploadedImgUrl
+      imgUrl: uploadedImgUrl || productImgUrl
     }
     makePrivateRequest(
       {
