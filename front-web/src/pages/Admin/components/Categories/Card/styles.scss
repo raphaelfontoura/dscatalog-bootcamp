@@ -1,0 +1,21 @@
+.category-card {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-card-title {
+  font-size: 18px;
+  line-height: 25px;
+  letter-spacing: -0.015em;
+
+  color: #263238;
+}
+
+.category-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
