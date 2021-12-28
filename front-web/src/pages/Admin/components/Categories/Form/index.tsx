@@ -55,7 +55,7 @@ const CategoryForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <BaseForm title={formTitle}>
         <div className="row">
-          <div className="col-6">
+          <div className="col-12">
 
             <div className='margin-bottom-30'>
               <input
@@ -78,7 +78,7 @@ const CategoryForm = () => {
                 name="name"
                 type="text"
                 className={`form-control input-base ${errors.name ? 'is-invalid' : ''}`}
-                placeholder="Nome do Produto"
+                placeholder="Nome da Categoria"
               />
               {errors.name && (
                 <div className="invalid-feedback d-block">

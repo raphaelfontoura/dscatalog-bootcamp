@@ -1,23 +1,23 @@
 import './styles.scss';
 
-import { CategoryResponse } from 'core/types/Category';
+import Pagination from 'core/components/Pagination';
+import { UserResponse } from 'core/types/User';
 import history from 'core/utils/history';
-import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import { makePrivateRequest } from 'core/utils/request';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import CategoryCard from '../Card';
-import Pagination from 'core/components/Pagination';
 import CardLoader from '../../Products/Loaders';
+import UserCard from '../Card';
 
 
-const CategoryList = () => {
+const UserList = () => {
 
-  const [categories, setCategories] = useState<CategoryResponse>()
+  const [users, setUsers] = useState<UserResponse>()
   const [isLoading, setIsLoading] = useState(false)
   const [activePage, setActivePage] = useState(0);
 
-  const getCategorias = useCallback(() => {
+  const getUsers = useCallback(() => {
     const params = {
       page: activePage,
       linesPerPage: 6,
@@ -27,8 +27,8 @@ const CategoryList = () => {
 
     setIsLoading(true);
     try {
-      makeRequest({ url: "/categories", params })
-        .then(response => setCategories(response.data))
+      makePrivateRequest({ url: "/users", params })
+        .then(response => setUsers(response.data))
         .finally(() => {
           setIsLoading(false);
         });
@@ -38,23 +38,23 @@ const CategoryList = () => {
   }, [activePage])
 
   useEffect(() => {
-    getCategorias();
-  }, [getCategorias]);
+    getUsers();
+  }, [getUsers]);
 
-  const onRemove = (categoryId: number) => {
-    const confirm = window.confirm('Deseja excluir este produto?');
+  const onRemove = (userId: number) => {
+    const confirm = window.confirm('Deseja excluir este usuário?');
     if (confirm) {
-      makePrivateRequest({ url: `/categories/${categoryId}`, method: 'DELETE' })
+      makePrivateRequest({ url: `/users/${userId}`, method: 'DELETE' })
         .then(() => {
-          toast.info('Categoria removida com sucesso!');
-          getCategorias();
+          toast.info('Usuário deletado com sucesso!');
+          getUsers();
         })
-        .catch(() => toast.error('Erro ao remover a categoria!'))
+        .catch(() => toast.error('Erro ao remover o usuário!'))
     }
   }
 
   const handleCreate = () => {
-    history.push("/admin/categories/create");
+    history.push("/admin/users/create");
   }
 
   return (
@@ -64,14 +64,14 @@ const CategoryList = () => {
       </button>
       {isLoading ? <CardLoader /> : (
         <div className="category-list-container">
-          {categories?.content.map(category => (
-            <CategoryCard category={category} key={category.id} onRemove={onRemove} />
+          {users?.content.map(user => (
+            <UserCard user={user} key={user.id} onRemove={onRemove} />
           ))}
         </div>
       )}
-      {categories && (
+      {users && (
         <Pagination
-          totalPages={categories.totalPages}
+          totalPages={users.totalPages}
           activePage={activePage}
           onChange={page => setActivePage(page)}
         />
@@ -80,4 +80,4 @@ const CategoryList = () => {
   )
 }
 
-export default CategoryList
+export default UserList
