@@ -9,7 +9,7 @@ type LoginData = {
   password: string;
 };
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "https://raphael-dscatalog.herokuapp.com/"; //url to local port app and proxy on package.json will be translate to localhost:8080
+const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? "http://localhost:8080"; //url to local port app and proxy on package.json will be translate to localhost:8080
 
 
 axios.interceptors.response.use(
