@@ -1,26 +1,33 @@
 .main-nav {
     height: 70px;
     color: white;
+    display: flex;
+    flex-wrap: nowrap;
     align-items: center;
-    padding-left: 40px;
-    padding-right: 40px;
-    margin-left: 0;
-    margin-right: 0;
-
+    padding: 0 40px;
+    margin: 0px;
 }
 
 .nav-logo-text {
-    color: white;
+  width: 30%;
+  color: white;
+}
+
+.menu-container {
+  
+  width: 55%;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: nowrap;
 }
 
 .main-menu {
-    display: flex;
-    justify-content: center;
-    
-    li:nth-child(2) {
-        margin-left: 85px;
-        margin-right: 85px;
-    }   
+  max-width: 300px;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .nav-link {
@@ -35,4 +42,18 @@
     &:hover {
         color: #FFF;
     }
+}
+
+// mobile breakpoints
+
+@media (max-width: 768px) {
+  .menu-container {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  .menu-container {
+    border: 1px solid red;
+  }
 }
