@@ -1,11 +1,12 @@
 .main-nav {
-    height: 70px;
-    color: white;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    padding: 0 40px;
-    margin: 0px;
+  width: 100% !important;
+  height: 70px;
+  color: white;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 0 40px;
+  margin: 0px;
 }
 
 .nav-logo-text {
@@ -13,8 +14,11 @@
   color: white;
 }
 
+.menu-mobile-button {
+  display: none;
+}
+
 .menu-container {
-  
   width: 55%;
   display: flex;
   flex: 1;
@@ -31,17 +35,17 @@
 }
 
 .nav-link {
-    font-size: 18px;
-    font-style: normal;
-    color: rgba(255, 255, 255, 0.5);
+  font-size: 18px;
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.5);
 
-    &.active {
-        font-weight: bold;
-        color: #FFF;
-    }
-    &:hover {
-        color: #FFF;
-    }
+  &.active {
+    font-weight: bold;
+    color: #fff;
+  }
+  &:hover {
+    color: #fff;
+  }
 }
 
 // mobile breakpoints
@@ -53,7 +57,55 @@
 }
 
 @media (max-width: 576px) {
+  .main-nav {
+    width: 100% !important;
+    justify-content: space-between;
+  }
+
   .menu-container {
-    border: 1px solid red;
+    display: none;
+  }
+
+  .nav-logo-text {
+    width: 50%;
+    margin-left: 15px;
+  }
+
+  .menu-mobile-button {
+    display: block;
+    border: none;
+    background: transparent;
+    width: 30px;
+    outline: none;
+  }
+
+  .menu-mobile-container {
+    width: 100%;
+    top: 70px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #407bff;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .menu-mobile-container ul {
+    height: 150px;
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    flex-direction: column;
+    top: 40px;
+  }
+
+  .menu-mobile-container ul li {
+    width: 96vw;
+    margin: 5px 0;
+  }
+
+  .user-info-dnone {
+    display: none;
   }
 }
