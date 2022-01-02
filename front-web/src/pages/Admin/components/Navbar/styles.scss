@@ -54,3 +54,11 @@
     background: #F2F2F2;
   }
 }
+
+@media (max-width: 576px) {
+  .admin-nav-item {
+    width: 120px;
+    height: 60px;
+    text-align: center;
+  }
+}

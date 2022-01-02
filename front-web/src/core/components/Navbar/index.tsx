@@ -4,8 +4,7 @@ import { getAccessTokenDecoded, logout } from 'core/utils/auth';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
-import menu from "../../assets/images/menu.svg"
-import { loadingMessageCSS } from 'react-select/dist/declarations/src/components/Menu';
+import menu from '../../assets/images/menu.svg';
 
 const Navbar = () => {
 
