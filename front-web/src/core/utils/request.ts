@@ -25,7 +25,7 @@ axios.interceptors.response.use(
 export const makeRequest = (params: AxiosRequestConfig) => {
   return axios({
     ...params,
-    baseURL: BASE_URL,
+    baseURL: BASE_URL
   });
 };
 

@@ -131,7 +131,9 @@ public class ProductResourceTests {
         mockMvc.perform(get("/products")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").exists());
+                .andExpect(jsonPath("$.content").exists())
+                .andExpect(jsonPath("$.content.[0].name").exists())
+                .andExpect(jsonPath("$.content.[0].name").value("phone"));
     }
 
     @Test
