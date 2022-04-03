@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 
 const colors = {
   white: "#FFFFFF",
-  lightGray: "F2F2F2",
+  lightGray: "#F2F2F2",
   mediumGray: "#9E9E9E",
   darkGray: "#263238",
   black: "#000000",
@@ -34,6 +34,21 @@ const text = StyleSheet.create({
     color: colors.white,
     marginLeft: 20,
   },
+  productName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  currency: {
+    fontSize: 16,
+    fontWeight: "400",
+    color: colors.mediumGray,
+    marginRight: 5,
+  },
+  productPrice: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: colors.primary,
+  },
 });
 
 const theme = StyleSheet.create({
@@ -42,6 +57,9 @@ const theme = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+  },
+  scrollContainer: {
+    padding: 10,
   },
   card: {
     width: "100%",
@@ -83,6 +101,32 @@ const theme = StyleSheet.create({
     borderBottomRightRadius: 10,
     alignItems: "center",
     justifyContent: "center",
+  },
+  productCard: {
+    width: "100%",
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    alignItems: "center",
+    justifyContent: "space-around",
+    marginVertical: 10,
+  },
+  productDescription: {
+    width: "100%",
+    padding: 20,
+    borderTopColor: colors.lightGray,
+    borderTopWidth: 1,
+  },
+  priceContainer: {
+    flexDirection: "row",
+    marginTop: 10,
   },
 });
 
