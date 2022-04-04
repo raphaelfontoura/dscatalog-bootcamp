@@ -153,6 +153,11 @@ const theme = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderBottomColor: colors.borderGray,
   },
+  productImage: {
+    width: 140,
+    height: 140,
+    margin: 16,
+  },
 });
 
 export { colors, theme, text }
