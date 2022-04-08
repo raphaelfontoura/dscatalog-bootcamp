@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView } from 'react-native';
 
 import { ProductCard, SearchInput } from '../components';
+import { Product } from '../models/Product';
 import { api } from '../services';
 import { theme } from '../styles';
 
@@ -9,7 +10,7 @@ import { theme } from '../styles';
 const Catalog: React.FC = () => {
 
   const [search, setSearch] = useState("");
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fillProducts = async () => {

@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.raphael.fontoura.dscatalog"
     },
     "web": {
       "favicon": "./assets/favicon.png"
