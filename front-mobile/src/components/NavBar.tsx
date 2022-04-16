@@ -27,6 +27,7 @@ const NavBar: React.FC = () => {
 
   function logout() {
     doLogout();
+    setShow(false);
     navigation.navigate("Login");
   }
 
@@ -45,7 +46,7 @@ const NavBar: React.FC = () => {
         ) : (
           <TouchableOpacity activeOpacity={0.8} style={nav.drawer} onPress={() => setShow(!show)}>
             <Image source={menu} style={{ alignSelf: "flex-end", marginRight: 10 }} />
-            {show ?
+            { show ?
               <View style={nav.options}>
                 <TouchableOpacity style={nav.option} onPress={() => navigate("Home")}>
                   <Text style={[nav.textOption, route.name === "Home" ? nav.textActive : null]}>Home</Text>
