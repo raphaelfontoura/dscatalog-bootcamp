@@ -3,7 +3,7 @@ import { Text, View } from "react-native"
 const Users = () => {
   return (
     <View>
-      <Text>Tela de Produtos</Text>
+      <Text>Tela de Usuários</Text>
     </View>
   )
 }

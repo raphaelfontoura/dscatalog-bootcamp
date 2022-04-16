@@ -3,7 +3,7 @@ import { Text, View } from "react-native"
 const Categories = () => {
   return (
     <View>
-      <Text>Tela de Produtos</Text>
+      <Text>Tela de Categorias</Text>
     </View>
   )
 }
