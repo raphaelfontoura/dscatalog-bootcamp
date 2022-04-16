@@ -11,7 +11,7 @@ const HeaderText: React.FC = () => <Text style={nav.leftText}>DS Catalog</Text>;
 const Routes: React.FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      // initialRouteName="Home"
       screenOptions={{
         headerTitle: "",
         headerStyle: {
