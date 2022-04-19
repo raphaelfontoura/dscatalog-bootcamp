@@ -397,7 +397,7 @@ const theme = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginVertical: 15,
-    justifyContent: "flex-start"
+    textAlign: "left",
   },
   selectInput: {
     width: "100%",

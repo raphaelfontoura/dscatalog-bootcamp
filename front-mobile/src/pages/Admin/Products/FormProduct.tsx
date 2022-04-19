@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   Text, View, ScrollView, TouchableOpacity, Image, Modal, TextInput, ActivityIndicator, Alert
-} from "react-native"
+} from "react-native";
+import Toast from 'react-native-tiny-toast';
 import arrow from "../../../assets/leftArrow.png";
-import { getCategories } from "../../../services";
+import { createProduct, getCategories } from "../../../services";
 import { theme, text } from "../../../styles";
 
 interface FormProductProps {
@@ -59,7 +60,12 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
         cat
       ]
     };
-    console.warn(data);
+    try {
+      await createProduct(data);
+      Toast.showSuccess("Produto criado com sucesso.");
+    } catch (error) {
+      Toast.show("Erro ao salvar...");
+    }
     setLoading(false);
   }
 
