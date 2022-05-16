@@ -5,6 +5,7 @@ import { nav, text } from "../styles";
 import menu from "../assets/menu.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { doLogout, isAuthenticated } from "../services/auth";
+import { StatusBar } from "expo-status-bar";
 
 const NavBar: React.FC = () => {
   const [show, setShow] = useState(false);
@@ -38,6 +39,7 @@ const NavBar: React.FC = () => {
   return (
 
     <>
+    <StatusBar style="light"/>
       {
         authenticated ? (
           <TouchableOpacity style={nav.logoutBtn} onPress={() => logout()}>

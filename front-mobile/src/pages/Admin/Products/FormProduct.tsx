@@ -1,27 +1,16 @@
-import { useEffect, useState } from "react";
-import {
-  Text, View, ScrollView, TouchableOpacity, Image, Modal, TextInput, ActivityIndicator, Alert
-} from "react-native";
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import Toast from 'react-native-tiny-toast';
-import arrow from "../../../assets/leftArrow.png";
-import { createProduct, getCategories } from "../../../services";
-import { theme, text } from "../../../styles";
+import * as ImagePicker from 'expo-image-picker';
+
+import arrow from '../../../assets/leftArrow.png';
+import { Category } from '../../../models/Category';
+import { createProduct, getCategories, uploadImage } from '../../../services';
+import { text, theme } from '../../../styles';
 
 interface FormProductProps {
   setScreen: Function;
-}
-interface Category {
-  id: number,
-  name: string,
-}
-
-interface Product {
-  id?: number,
-  name: string,
-  description: string,
-  imgUrl: string,
-  price: number,
-  categories: Category[]
 }
 
 const FormProduct: React.FC<FormProductProps> = (props) => {
@@ -37,14 +26,50 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
     categories: "",
     description: "",
     imgUrl: "",
-    price: 0
+    price: ""
   });
+  const [image, setImage] = useState("");
+
+  async function selectImage() {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      console.log(result);
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
+
+  async function handleUpload() {
+    uploadImage(image).then(res => {
+      const { uri } = res?.data;
+      setProduct({ ...product, imgUrl: uri });
+    });
+  }
+
+  useEffect(() => {
+    image ? handleUpload() : null;
+  }, [image])
 
   async function loadCategories() {
     setLoading(true);
     const res = await getCategories();
     setCategories(res.data.content);
     setLoading(false);
+  }
+
+  function getRaw() {
+    const str = product.price;
+    const res = str.slice(2).replace(/\./g, "").replace(/,/g, ".");
+    return res;
   }
 
   function handleSave() {
@@ -56,6 +81,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
     const cat = findCategory();
     const data = {
       ...product,
+      price: getRaw(),
       categories: [
         cat
       ]
@@ -70,12 +96,12 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
   }
 
   function findCategory() {
-    return categories.find( (category) => category.name === product.categories);
+    return categories.find((category) => category.name === product.categories);
   }
 
   useEffect(() => {
     loadCategories();
-  },[]);
+  }, []);
 
   return (
     <View style={theme.formContainer}>
@@ -98,7 +124,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                             style={theme.modalItem}
                             key={category.id}
                             onPress={() => {
-                              setProduct({ ...product, categories: category.name});
+                              setProduct({ ...product, categories: category.name });
                               setShowCategories(!showCategories);
                             }}>
                             <Text>{category.name}</Text>
@@ -114,61 +140,86 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                 <Text style={text.goBackText}>Voltar</Text>
               </TouchableOpacity>
 
-              <TextInput 
-                placeholder="Nome do Produto" 
-                style={theme.formInput} 
+              <TextInput
+                placeholder="Nome do Produto"
+                style={theme.formInput}
                 value={product.name}
-                onChangeText={(e) => setProduct({...product, name: e})}
+                onChangeText={(e) => setProduct({ ...product, name: e })}
               />
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 onPress={() => setShowCategories(!showCategories)}
                 style={theme.selectInput}
               >
-                <Text style={product.categories.length === 0 ? {color: "#9E9E9E"} : {color: "#000"}}>
+                <Text style={product.categories.length === 0 ? { color: "#9E9E9E" } : { color: "#000" }}>
                   {
                     product.categories.length === 0 ? "Escolha um categoria" : product.categories
                   }
                 </Text>
               </TouchableOpacity>
-              
-              <TextInput 
-                placeholder="Preço" 
-                style={theme.formInput} 
-                value={(product.price).toString()}
-                onChangeText={(e) => setProduct({...product, price: parseInt(e)})}
+
+              {/* @ts-ignore */}
+              <TextInputMask
+                type='money'
+                placeholder='Preço'
+                style={theme.formInput}
+                value={product.price}
+                onChangeText={(e) => setProduct({ ...product, price: e })}
               />
-              
-              <TouchableOpacity activeOpacity={0.8} style={theme.uploadBtn}>
+
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={theme.uploadBtn}
+                onPress={selectImage}>
                 <Text style={text.uploadText}>Carregar Imagem</Text>
               </TouchableOpacity>
               <Text style={text.fileSize}>
                 As imagens devem ser JPG ou PNG e não devem ultrapassar 5mb.
               </Text>
-              
-              <TextInput 
-                multiline 
-                placeholder="Descrição" 
-                style={theme.textArea} 
+              {
+                image !== "" && (
+                  <TouchableOpacity
+                    onPress={selectImage}
+                    activeOpacity={0.9}
+                    style={{
+                      width: "100%",
+                      height: 150,
+                      borderRadius: 10,
+                      marginVertical: 10,
+                    }}
+                  >
+                    <Image
+                      source={{ uri: image }}
+                      style={{ width: "100%", height: "100%", borderRadius: 10 }}
+                    />
+                  </TouchableOpacity>
+                )
+              }
+
+              <TextInput
+                multiline
+                numberOfLines={4}
+                placeholder="Descrição"
+                style={theme.textArea}
                 value={product.description}
-                onChangeText={(e) => setProduct({...product, description: e})}
+                onChangeText={(e) => setProduct({ ...product, description: e })}
               />
 
               <View style={theme.buttonContainer}>
-                <TouchableOpacity 
-                  style={theme.deleteBtn} 
-                  onPress={() => 
+                <TouchableOpacity
+                  style={theme.deleteBtn}
+                  onPress={() =>
                     Alert.alert(
                       "Deseja cancelar?",
                       "Os dados inseridos não serão salvos",
                       [
                         {
-                          text: "Voltar", 
+                          text: "Voltar",
                           style: "cancel"
                         },
                         {
-                          text:"Confirmar", 
-                          onPress:() => setScreen("products"),
+                          text: "Confirmar",
+                          onPress: () => setScreen("products"),
                           style: "default"
                         }
                       ]
@@ -178,7 +229,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                   <Text style={text.deleteText}>Cancelar</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={theme.saveBtn}
                   onPress={() => handleSave()}
                 >

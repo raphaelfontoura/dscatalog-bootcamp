@@ -390,7 +390,6 @@ const theme = StyleSheet.create({
     marginVertical: 15,
   },
   textArea: {
-    width: "100%",
     height: 200,
     borderWidth: 1,
     borderColor: colors.mediumGray,
@@ -398,6 +397,7 @@ const theme = StyleSheet.create({
     padding: 10,
     marginVertical: 15,
     textAlign: "left",
+    textAlignVertical: 'top'
   },
   selectInput: {
     width: "100%",

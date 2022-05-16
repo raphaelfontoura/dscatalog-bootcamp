@@ -16,7 +16,7 @@ const Routes: React.FC = () => {
         headerTitle: "",
         headerStyle: {
           backgroundColor: colors.primary,
-          height: 60,
+          height: 80,
         },
         headerLeft: () => <HeaderText />,
         headerRight: () => <NavBar />,
