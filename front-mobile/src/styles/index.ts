@@ -122,6 +122,7 @@ const theme = StyleSheet.create({
     padding: 20,
   },
   scrollContainer: {
+    flex: 1,
     padding: 10,
   },
   card: {
@@ -189,6 +190,9 @@ const theme = StyleSheet.create({
   priceContainer: {
     flexDirection: "row",
     marginTop: 10,
+  },
+  loading: {
+    padding: 10,
   },
   // Search Input
   inputContainers: {
@@ -427,6 +431,7 @@ const theme = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
   },
+  
 });
 
 const nav = StyleSheet.create({

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
 
 import { ProductCard, SearchInput } from '../components';
 import { Product } from '../models/Product';
@@ -12,12 +12,21 @@ const Catalog: React.FC = () => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const perPage = 6;
 
   const fillProducts = async () => {
+    if (loading) return;
+
     setLoading(true);
-    const result = await api.get(`/products?page=0&linesPerPage=12&direction=ASC&orderBy=name`);
-    setLoading(false);
-    setProducts(result.data.content);
+    api.get(`/products?page=${page}&linesPerPage=${perPage}&direction=DESC&orderBy=id`)
+      .then((result) => {
+        setProducts([...products, ...result.data.content]);
+        setPage(page + 1);
+        setLoading(false);
+      }).catch(() => {
+        setLoading(false);
+      });
   }
 
   useEffect(() => {
@@ -31,17 +40,33 @@ const Catalog: React.FC = () => {
     : products;
 
   return (
-    <ScrollView contentContainerStyle={theme.scrollContainer}>
+    <View style={theme.scrollContainer}>
       <SearchInput placeholder="Nome do produto" search={search} setSearch={setSearch} />
-      {loading ?
-        (<ActivityIndicator size="large" />)
-        :
-        (data.map(product => (
-          <ProductCard {...product} key={product.id} />)
-        ))
-      }
-    </ScrollView>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <ProductCard {...item} key={item.id} />}
+        onEndReached={() => fillProducts()}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={<FooterList load={loading} />}
+      />
+
+    </View>
   )
 }
 
 export default Catalog;
+
+type FooterListProps = {
+  load: boolean;
+}
+
+function FooterList({ load }: FooterListProps) {
+  if (!load) return null;
+
+  return (
+    <View style={theme.loading}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+}
