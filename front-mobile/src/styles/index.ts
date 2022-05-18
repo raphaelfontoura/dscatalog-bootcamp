@@ -390,6 +390,8 @@ const theme = StyleSheet.create({
     marginVertical: 15,
   },
   textArea: {
+    width: "100%",
+    maxWidth: "100%",
     height: 200,
     borderWidth: 1,
     borderColor: colors.mediumGray,

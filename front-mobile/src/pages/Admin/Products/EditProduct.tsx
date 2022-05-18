@@ -6,26 +6,28 @@ import * as ImagePicker from 'expo-image-picker';
 
 import arrow from '../../../assets/leftArrow.png';
 import { Category } from '../../../models/Category';
-import { createProduct, getCategories, uploadImage } from '../../../services';
+import { updateProduct, getProduct, getCategories, uploadImage } from '../../../services';
 import { text, theme } from '../../../styles';
+import { Product } from '../../../models/Product';
 
-interface FormProductProps {
+interface EditProductProps {
   setScreen: Function;
+  productId: number;
 }
 
-const FormProduct: React.FC<FormProductProps> = (props) => {
-  const { setScreen } = props;
+const EditProduct: React.FC<EditProductProps> = (props) => {
+  const { setScreen, productId } = props;
 
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [showCategories, setShowCategories] = useState(false);
   const [category, setCategory] = useState<Category>();
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<Product>({
     name: "",
-    categories: "",
+    categories: [],
     description: "",
     imgUrl: "",
-    price: ""
+    price: "",
   });
   const [image, setImage] = useState("");
 
@@ -36,9 +38,8 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
         alert("Permission to access camera roll is required!");
         return;
       }
-
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
@@ -49,7 +50,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
     } catch (error) {
       console.error(error);
     }
-    
+
   }
 
   async function handleUpload() {
@@ -70,42 +71,37 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
     setLoading(false);
   }
 
-  function getRaw() {
-    const str = product.price;
+  function getRaw(e: string) {
+    const str = e;
     const res = str.slice(2).replace(/\./g, "").replace(/,/g, ".");
     return res;
   }
 
-  function handleSave() {
-    newProduct();
+  async function loadProduct() {
+    setLoading(true);
+    const res = await getProduct(productId);
+    setProduct(res.data);
+    setLoading(false);
   }
 
-  async function newProduct() {
+  async function handleSave() {
     setLoading(true);
-    const cat = findCategory();
     const data = {
       ...product,
-      price: getRaw(),
-      categories: [
-        cat
-      ]
     };
     try {
-      await createProduct(data);
+      await updateProduct(data);
       setScreen("products");
-      Toast.showSuccess("Produto criado com sucesso.");
+      Toast.showSuccess("Produto atualizado com sucesso!");
     } catch (error) {
       Toast.show("Erro ao salvar...");
     }
     setLoading(false);
   }
 
-  function findCategory() {
-    return categories.find((category) => category.name === product.categories);
-  }
-
   useEffect(() => {
     loadCategories();
+    loadProduct();
   }, []);
 
   return (
@@ -124,16 +120,20 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                   <ScrollView contentContainerStyle={theme.modalContent}>
                     {
                       categories.map(
-                        category =>
-                          <TouchableOpacity
-                            style={theme.modalItem}
-                            key={category.id}
-                            onPress={() => {
-                              setProduct({ ...product, categories: category.name });
-                              setShowCategories(!showCategories);
-                            }}>
-                            <Text>{category.name}</Text>
-                          </TouchableOpacity>
+                        category => {
+                          const { id, name } = category;
+                          return (
+                            <TouchableOpacity
+                              style={theme.modalItem}
+                              key={id}
+                              onPress={() => {
+                                setProduct({ ...product, categories: [{ id, name }] });
+                                setShowCategories(!showCategories);
+                              }}>
+                              <Text>{name}</Text>
+                            </TouchableOpacity>
+                          )
+                        }
                       )
                     }
                   </ScrollView>
@@ -158,7 +158,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
               >
                 <Text style={product.categories.length === 0 ? { color: "#9E9E9E" } : { color: "#000" }}>
                   {
-                    product.categories.length === 0 ? "Escolha um categoria" : product.categories
+                    product.categories.length === 0 ? "Escolha um categoria" : product.categories[0].name
                   }
                 </Text>
               </TouchableOpacity>
@@ -168,8 +168,9 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                 type='money'
                 placeholder='Preço'
                 style={theme.formInput}
+                //@ts-ignore
                 value={product.price}
-                onChangeText={(e) => setProduct({ ...product, price: e })}
+                onChangeText={(e) => setProduct({ ...product, price: getRaw(e) })}
               />
 
               <TouchableOpacity
@@ -182,23 +183,21 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                 As imagens devem ser JPG ou PNG e não devem ultrapassar 5mb.
               </Text>
               {
-                image !== "" && (
-                  <TouchableOpacity
-                    onPress={selectImage}
-                    activeOpacity={0.9}
-                    style={{
-                      width: "100%",
-                      height: 150,
-                      borderRadius: 10,
-                      marginVertical: 10,
-                    }}
-                  >
-                    <Image
-                      source={{ uri: image }}
-                      style={{ width: "100%", height: "100%", borderRadius: 10 }}
-                    />
-                  </TouchableOpacity>
-                )
+                <TouchableOpacity
+                  onPress={selectImage}
+                  activeOpacity={0.9}
+                  style={{
+                    width: "100%",
+                    height: 150,
+                    borderRadius: 10,
+                    marginVertical: 10,
+                  }}
+                >
+                  <Image
+                    source={image === "" ? { uri: product.imgUrl } : { uri: image }}
+                    style={{ width: "100%", height: "100%", borderRadius: 10 }}
+                  />
+                </TouchableOpacity>
               }
 
               <TextInput
@@ -249,4 +248,4 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
   )
 }
 
-export default FormProduct;
+export default EditProduct;

@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import mime from "mime";
 
 import axios from "axios";
+import { Product } from '../models/Product';
 
 
 export const api = axios.create({
@@ -42,6 +43,21 @@ export async function deleteProduct(id: number) {
   })
 }
 
+export async function getProduct(id:number) {
+  const res = await api.get(`/products/${id}`);
+  return res;
+}
+
+export async function updateProduct(data: Product) {
+  const authToken = await userToken();
+  const res = await api.put(`/products/${data.id}`, data, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+  return res;
+}
+
 export function getCategories() {
   const response = api.get(`/categories?direction=ASC&orderBy=name`);
   return response;
@@ -53,7 +69,14 @@ export async function uploadImage(image: string) {
   const authToken = await userToken();
   let data = new FormData();
 
+  // data.append("file", {
+  //   //@ts-ignore
+  //   uri: image,
+  //   name: image,
+  // });
+
   if (Platform.OS === "android") {
+    console.log("Entrei no android")
     const newImageUri = "file:///" + image.split("file:/").join("");
 
     data.append("file", {
@@ -64,16 +87,16 @@ export async function uploadImage(image: string) {
   } else if (Platform.OS === "ios") {
     data.append("file", {
       uri: image,
-      name: image,
+      name: image
     });
   }
 
   const res = await api.post(`/products/image`, data, {
     headers: {
-      Authorization: `Bearer ${authToken}`,
-      "Content-Type": "multipart/form-data"
+      Authorization:`Bearer ${authToken}`,
+      'Content-Type':'multipart/form-data',
     },
-  });
+  }).catch(err => console.log(err));
 
   return res;
 }

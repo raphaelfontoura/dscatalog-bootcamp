@@ -5,6 +5,7 @@ import { api } from "../services";
 import arrow from "../assets/leftArrow.png";
 import { useNavigation } from "@react-navigation/native";
 import { text, theme } from "../styles";
+import { TextInputMask } from "react-native-masked-text";
 
 
 const ProductDetails = ({
@@ -49,9 +50,24 @@ const ProductDetails = ({
             <Image source={{uri: product.imgUrl}} style={theme.productDetailImage} />
           </View>
           <Text style={text.productDetailsName}>{product.name}</Text>
+          
           <View style={theme.priceContainer}>
             <Text style={text.currency}>R$</Text>
-            <Text style={text.productPrice}>{product.price}</Text>
+            {/* @ts-ignore */}
+            <TextInputMask
+              type={"money"}
+              options={{
+                precision: 2,
+                separator: ",",
+                delimiter: ".",
+                unit: " ",
+                suffixUnit: ""
+              }}
+              // @ts-ignore
+              value={product.price} 
+              editable={false}
+              style={text.productPrice}
+            />
           </View>
           <ScrollView style={theme.scrollTextContainer}>
             <Text style={text.productDescription}>{product.description}</Text>
