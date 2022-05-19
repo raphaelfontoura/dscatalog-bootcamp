@@ -7,10 +7,12 @@ import { Product } from '../models/Product';
 
 
 export const api = axios.create({
-  baseURL: "http://192.168.0.108:8080"
+  //baseURL: "http://192.168.0.108:8080"
+  baseURL: "https://raphael-dscatalog.herokuapp.com"
 });
 
-export const TOKEN = "Basic ZHNjYXRhbG9nOmRzY2F0YWxvZzEyMw==";
+// export const TOKEN = "Basic ZHNjYXRhbG9nOmRzY2F0YWxvZzEyMw==";
+export const TOKEN= "Basic ZHNjYXRhbG9nLXJhcGhhZWw6cmFwaGFAZHNjYXRhbG9nIzI2MTE="
 
 export async function userToken() {
   const token = await AsyncStorage.getItem("@token");
@@ -68,12 +70,6 @@ export async function uploadImage(image: string) {
   if (!image) return;
   const authToken = await userToken();
   let data = new FormData();
-
-  // data.append("file", {
-  //   //@ts-ignore
-  //   uri: image,
-  //   name: image,
-  // });
 
   if (Platform.OS === "android") {
     console.log("Entrei no android")

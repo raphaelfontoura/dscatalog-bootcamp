@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "ds-catalog",
+    "name": "DS Catalog",
     "slug": "ds-catalog",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#407BEE"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,14 +23,16 @@
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       },
-      "bundleIdentifier": "com.raphael.fontoura.dscatalog"
+      "bundleIdentifier": "com.raphael.fontoura.dscatalog",
+      "buildNumber":"1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#407bee"
       },
       "package": "com.raphael.fontoura.dscatalog",
+      "versionCode": 1,
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.READ_EXTERNAL_STORAGE",

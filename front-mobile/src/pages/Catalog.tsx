@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 import { ProductCard, SearchInput } from '../components';
 import { Product } from '../models/Product';
@@ -42,6 +42,7 @@ const Catalog: React.FC = () => {
   return (
     <View style={theme.scrollContainer}>
       <SearchInput placeholder="Nome do produto" search={search} setSearch={setSearch} />
+      {loading && <ActivityIndicator size='large' />}
       <FlatList
         data={data}
         keyExtractor={(item) => String(item.id)}
