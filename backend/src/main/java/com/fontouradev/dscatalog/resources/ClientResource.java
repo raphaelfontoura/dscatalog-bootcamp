@@ -2,6 +2,8 @@ package com.fontouradev.dscatalog.resources;
 
 import com.fontouradev.dscatalog.dto.ClientDTO;
 import com.fontouradev.dscatalog.services.ClientService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,12 +16,14 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/clients")
+@Api(tags = "ClientResource")
 public class ClientResource {
 	
 	@Autowired
 	private ClientService service;
 	
 	@GetMapping
+	@ApiOperation(value = "Get all clients")
 	public ResponseEntity<Page<ClientDTO>> findAllPaged(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
